@@ -4,10 +4,6 @@ gradle-app.setting
 !gradle-wrapper.jar
 .gradletasknamecache
 
-# Build
-build/
-build/**/*
-
 # Runtime
 *.class
 *.jar
