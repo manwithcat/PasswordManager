@@ -1,0 +1,17 @@
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Build
+build/
+build/**/*
+
+# Runtime
+*.class
+*.jar
+*.war
+*.ear
+*.log
+

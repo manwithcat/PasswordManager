@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.passwordmanager'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.xerial:sqlite-jdbc:3.44.0.0'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+    implementation 'com.formdev:flatlaf:3.2.1'
+    implementation 'com.formdev:flatlaf-extras:3.2.1'
+    implementation 'com.miglayout:miglayout-swing:11.3'
+    implementation 'org.apache.commons:commons-lang3:3.13.0'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+application {
+    mainClass = 'com.passwordmanager.ui.PasswordManagerApplication'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.passwordmanager.ui.PasswordManagerApplication',
+            'Implementation-Version': project.version
+        )
+    }
+}
+
+task fatJar(type: Jar) {
+    archiveBaseName = project.name
+    archiveAppendix = 'fat'
+    archiveVersion = project.version
+    
+    manifest {
+        attributes(
+            'Main-Class': 'com.passwordmanager.ui.PasswordManagerApplication'
+        )
+    }
+    
+    from sourceSets.main.output
+    
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
